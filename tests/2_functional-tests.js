@@ -56,7 +56,7 @@ suite('Functional Tests', function() {
       .end(function(err,res){
         if(err) done(err);
         assert.equal(res.status, 200);
-        assert.equal(res.text, 'invalid number and input');
+        assert.equal(res.text, 'invalid number and unit');
         done();
       })
   });

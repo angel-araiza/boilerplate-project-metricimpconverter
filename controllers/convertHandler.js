@@ -1,5 +1,5 @@
 function ConvertHandler() {
-  
+
   this.getNum = function(input) {
     const rx = /\d/;
     let firstCheck = input.match(rx);
@@ -8,12 +8,12 @@ function ConvertHandler() {
     let result= input.match(regex);
     input === ""? result = ["1"]: result ;
  
-    if (!result) return "invalid number";
+    if (!result) return 'invalid number';
     let numStr = result[0];
     const parts = numStr.split('/');
 
     if (parts.length > 2){
-      return "invalid number";
+      return 'invalid number';
     }
     if (numStr.includes('/') && parts.length === 2){
       let [numerator, denominator] = numStr.split('/').map(Number);
@@ -23,12 +23,15 @@ function ConvertHandler() {
   };
   
   this.getUnit = function(input) {
-    const regex = /(gal|L|mi|km|lbs|kg)/i;
+    const regex = /(gal|L$|mi|km|lbs|kg)/i;
     let result = input.match(regex);
-    if(result === "l"){
-      return "L";
+    if (!result){
+      return 'invalid unit';
     }
-    return result ? result[0] : "invalid unit";
+    if(result[0] === "l" || result[0] === 'L'){
+      return "L";
+    } 
+    return result ? result[0].toLowerCase() : 'invalid unit';
   };
   
   this.getReturnUnit = function(initUnit) {
@@ -40,7 +43,7 @@ function ConvertHandler() {
       "lbs": "kg",
       "kg": "lbs"
     };
-    let result = unitMap[initUnit.toLowerCase()]|| "invalid unit";
+    let result = unitMap[initUnit.toLowerCase()]|| 'invalid unit';
     return result;
   };
 
@@ -53,7 +56,7 @@ function ConvertHandler() {
       "lbs": "pounds",
       "kg": "kilograms"
     }
-    let result = spelledOutUnits[unit.toLowerCase()]  || "invalid unit";
+    let result = spelledOutUnits[unit.toLowerCase()]  || 'invalid unit';
     return result;
   };
   
@@ -82,15 +85,20 @@ function ConvertHandler() {
         result = initNum / miToKm;
         break;
       default:
-        result = "invalid unit";
+        result = 'invalid unit';
     }
-    result === "invalid unit"? result: result = parseFloat(result.toFixed(5));
+    result === 'invalid unit'? result: result = parseFloat(result.toFixed(5));
     return result;
   };
   
   this.getString = function(initNum, initUnit, returnNum, returnUnit) {
-    let result = `${initNum} ${this.spellOutUnit(initUnit)} converts to ${returnNum.toFixed(5)} ${this.spellOutUnit(returnUnit)}`;
-    return result;
+    console.log(returnUnit);
+    if (returnUnit === "invalid unit"){
+      return "invalid unit"
+    } else{
+      let result = `${initNum} ${this.spellOutUnit(initUnit)} converts to ${parseFloat(returnNum.toFixed(5))} ${this.spellOutUnit(returnUnit)}`;
+      return result;
+    }
   };
   
 }

@@ -30,6 +30,11 @@ suite('Unit Tests', function(){
     let expectedOutput = "invalid number";
     assert.strictEqual(convertHandler.getNum(input), expectedOutput);
   });
+  test('convertHandler should correctly default to a numerical input of 1 when no numerical input is provided.', function(){
+    let input = "";
+    let expectedOutput = 1;
+    assert.strictEqual(convertHandler.getNum(input), expectedOutput)
+  });
   test('should correctly read each valid input unit.', function(){
     let input = "1gal";
     let expectedOutput = "gal";
